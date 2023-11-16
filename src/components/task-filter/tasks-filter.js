@@ -1,38 +1,42 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './task-filter.css';
 
 export default class TaskFilter extends Component {
+	// constructor(props) {
+	// 	super(props);
+
+	// 	this.state = {
+	// 		selectedFilter: 'all',
+	// 		filterOptions: ['all', 'active', 'completed'],
+	// 	};
+	// }
+	state = {
+		selectedFilter: 'all',
+		filterOptions: ['all', 'active', 'completed'],
+	};
+
+	onFilterClick = (filter) => {
+		this.setState({
+			selectedFilter: filter,
+		});
+
+		this.props.filterBy(filter);
+	};
+
 	render() {
 		return (
 			<ul className="filters">
-				<li>
-					<button className="selected">All</button>
-				</li>
-				<li>
-					<button>Active</button>
-				</li>
-				<li>
-					<button>Completed</button>
-				</li>
+				{this.state.filterOptions.map((filter) => (
+					<li key={filter}>
+						<button
+							className={this.state.selectedFilter === filter ? 'selected' : ''}
+							onClick={() => this.onFilterClick(filter)}
+						>
+							{filter.charAt(0).toUpperCase() + filter.slice(1)}
+						</button>
+					</li>
+				))}
 			</ul>
 		);
 	}
 }
-
-// const TaskFilter = () => {
-// 	return (
-// 		<ul className="filters">
-// 			<li>
-// 				<button className="selected">All</button>
-// 			</li>
-// 			<li>
-// 				<button>Active</button>
-// 			</li>
-// 			<li>
-// 				<button>Completed</button>
-// 			</li>
-// 		</ul>
-// 	);
-// };
-
-// export default TaskFilter;

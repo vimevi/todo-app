@@ -10,7 +10,6 @@
 
 .task-label {
 	line-height: 35px;
-	cursor: pointer;
 	user-select: none;
 	margin-right: auto;
 }
@@ -22,4 +21,27 @@
 .task.important .task-label {
 	font-weight: bold;
 	color: steelblue;
+}
+.hidden {
+	/* display: none; */
+}
+.edit-input {
+	z-index: 2;
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	font-size: 24px;
+	font-family: inherit;
+	font-weight: inherit;
+	line-height: 1.4em;
+	color: inherit;
+	padding: 6px;
+	border: 1px solid #999;
+	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
