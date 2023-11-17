@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
 import { Component } from 'react'
 
 import TodoList from '../todo-list'

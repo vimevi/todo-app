@@ -1,27 +1,19 @@
-import React, { Component } from 'react';
-import './task-filter.css';
+import { Component } from 'react'
+import './task-filter.css'
 
 export default class TaskFilter extends Component {
-	// constructor(props) {
-	// 	super(props);
-
-	// 	this.state = {
-	// 		selectedFilter: 'all',
-	// 		filterOptions: ['all', 'active', 'completed'],
-	// 	};
-	// }
 	state = {
 		selectedFilter: 'all',
 		filterOptions: ['all', 'active', 'completed'],
-	};
+	}
 
 	onFilterClick = (filter) => {
 		this.setState({
 			selectedFilter: filter,
-		});
+		})
 
-		this.props.filterBy(filter);
-	};
+		this.props.filterBy(filter)
+	}
 
 	render() {
 		return (
@@ -37,6 +29,6 @@ export default class TaskFilter extends Component {
 					</li>
 				))}
 			</ul>
-		);
+		)
 	}
 }

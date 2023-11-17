@@ -1,14 +1,15 @@
-import TaskFilter from '../task-filter/tasks-filter';
-import PropTypes from 'prop-types';
+/* eslint-disable no-unused-vars */
+import TaskFilter from '../task-filter/tasks-filter'
+import PropTypes from 'prop-types'
 
-import './footer.css';
+import './footer.css'
 
 const Footer = ({ unDoneCount, clearCompleted, filterBy }) => {
 	Footer.propTypes = {
 		unDoneCount: PropTypes.number.isRequired,
 		clearCompleted: PropTypes.func.isRequired,
 		filterBy: PropTypes.func.isRequired,
-	};
+	}
 
 	return (
 		<footer className="footer">
@@ -18,7 +19,7 @@ const Footer = ({ unDoneCount, clearCompleted, filterBy }) => {
 				Clear completed
 			</button>
 		</footer>
-	);
-};
+	)
+}
 
-export default Footer;
+export default Footer

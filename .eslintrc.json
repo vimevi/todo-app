@@ -12,7 +12,8 @@
 	"plugins": ["prettier"],
 	"extends": ["prettier", "eslint:recommended", "plugin:prettier/recommended"],
 	"rules": {
-		"endOfLine": "auto",
+		"useTabs": 0,
+		"endOfLine": 0,
 		"indent": ["error", "tab"],
 		"linebreak-style": ["error", "windows"]
 	}
