@@ -16,6 +16,7 @@ export default class App extends Component {
 			this.createTodoItem('Completed task'),
 			this.createTodoItem('editing task'),
 			this.createTodoItem('Active task'),
+			this.createTodoItem('Button'),
 		],
 	};
 
