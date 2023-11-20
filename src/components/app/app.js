@@ -16,7 +16,6 @@ export default class App extends Component {
 			this.createTodoItem('Completed task'),
 			this.createTodoItem('editing task'),
 			this.createTodoItem('Active task'),
-			this.createTodoItem('Button'),
 		],
 	};
 
@@ -32,45 +31,31 @@ export default class App extends Component {
 
 	filterBy = (filter) => {
 		const { todoData } = this.state;
+
+		let filteredData;
+
 		switch (filter) {
 			case 'active':
-				this.setState({
-					todoData: todoData.map((task) => ({ ...task, visible: !task.done })),
-				});
+				filteredData = todoData.map((task) => ({
+					...task,
+					visible: !task.done,
+				}));
 				break;
 			case 'completed':
-				this.setState({
-					todoData: todoData.map((task) => ({ ...task, visible: task.done })),
-				});
+				filteredData = todoData.map((task) => ({
+					...task,
+					visible: task.done,
+				}));
 				break;
 			case 'all':
 			default:
-				this.setState({
-					todoData: todoData.map((task) => ({ ...task, visible: true })),
-				});
+				filteredData = todoData.map((task) => ({ ...task, visible: true }));
 		}
-	};
-	// filterBy = (filter) => {
-	// 	const { todoData } = this.state;
-	// 	switch (filter) {
-	// 		case 'active':
-	// 			this.setState({
-	// 				todoData: todoData.map((task) => ({ ...task, visible: !task.done })),
-	// 			});
-	// 			break;
-	// 		case 'completed':
-	// 			this.setState({
-	// 				todoData: todoData.map((task) => ({ ...task, visible: task.done })),
-	// 			});
-	// 			break;
-	// 		case 'all':
-	// 		default:
-	// 			this.setState({
-	// 				todoData: todoData.map((task) => ({ ...task, visible: true })),
-	// 			});
-	// 	}
-	// };
 
+		this.setState({
+			todoData: filteredData,
+		});
+	};
 	onToggleDone = (id) => {
 		this.setState(({ todoData }) => {
 			const idx = todoData.findIndex((el) => el.id === id);
@@ -100,6 +85,7 @@ export default class App extends Component {
 			};
 		});
 	};
+
 	deleteItem = (id) => {
 		this.setState(({ todoData }) => {
 			const idx = todoData.findIndex((el) => el.id === id);

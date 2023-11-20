@@ -80,11 +80,9 @@ export default class Task extends Component {
 	};
 
 	render() {
-		const { onDeleted, onToggleDone, done, visible, dateCreated } = this.props;
+		const { onDeleted, onToggleDone, done, dateCreated } = this.props;
 
 		let classNames = '';
-
-		classNames = visible ? '' : 'hidden ';
 		classNames += done ? 'completed' : '';
 
 		const createdTime = formatDistanceToNow(dateCreated, { addSuffix: true });
