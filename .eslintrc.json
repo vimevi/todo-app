@@ -17,6 +17,6 @@
 		"useTabs": 0,
 		"endOfLine": 0,
 		"indent": "off",
-		"linebreak-style": ["error", "windows"]
+		"linebreak-style": "off"
 	}
 }
