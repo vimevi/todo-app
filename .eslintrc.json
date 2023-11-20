@@ -1,8 +1,10 @@
 {
 	"env": {
 		"browser": true,
-		"node": true
+		"node": true,
+		"es2021": true
 	},
+	"ignorePatterns": ["node_modules", "dist", "build"],
 	"parser": "@babel/eslint-parser",
 	"parserOptions": {
 		"requireConfigFile": false

@@ -49,6 +49,26 @@ export default class App extends Component {
 				});
 		}
 	};
+	// filterBy = (filter) => {
+	// 	const { todoData } = this.state;
+	// 	switch (filter) {
+	// 		case 'active':
+	// 			this.setState({
+	// 				todoData: todoData.map((task) => ({ ...task, visible: !task.done })),
+	// 			});
+	// 			break;
+	// 		case 'completed':
+	// 			this.setState({
+	// 				todoData: todoData.map((task) => ({ ...task, visible: task.done })),
+	// 			});
+	// 			break;
+	// 		case 'all':
+	// 		default:
+	// 			this.setState({
+	// 				todoData: todoData.map((task) => ({ ...task, visible: true })),
+	// 			});
+	// 	}
+	// };
 
 	onToggleDone = (id) => {
 		this.setState(({ todoData }) => {
