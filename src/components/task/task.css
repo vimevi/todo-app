@@ -22,9 +22,7 @@
 	font-weight: bold;
 	color: steelblue;
 }
-.hidden {
-	/* display: none; */
-}
+
 .edit-input {
 	z-index: 2;
 	position: absolute;

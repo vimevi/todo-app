@@ -2,19 +2,19 @@
 	"env": {
 		"browser": true,
 		"node": true
-
 	},
 	"parser": "@babel/eslint-parser",
 	"parserOptions": {
 		"requireConfigFile": false
 	},
-
+	"extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
 	"plugins": ["prettier"],
-	"extends": ["prettier", "eslint:recommended", "plugin:prettier/recommended"],
 	"rules": {
+		"prettier/prettier": ["error", {}],
+		"react/react-in-jsx-scope": "off",
 		"useTabs": 0,
 		"endOfLine": 0,
-		"indent": ["error", "tab"],
+		"indent": "off",
 		"linebreak-style": ["error", "windows"]
 	}
 }

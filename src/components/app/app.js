@@ -1,17 +1,15 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable indent */
-import { Component } from 'react'
+import { Component } from 'react';
 
-import TodoList from '../todo-list'
-import AppHeader from '../app-header'
-import TaskFilter from '../task-filter'
-import Footer from '../footer'
-import NewTaskForm from '../new-task-form'
+import TodoList from '../todo-list';
+import AppHeader from '../app-header';
+import TaskFilter from '../task-filter';
+import Footer from '../footer';
+import NewTaskForm from '../new-task-form';
 
-import './app.css'
+import './app.css';
 
 export default class App extends Component {
-	maxId = 100
+	maxId = 100;
 
 	state = {
 		todoData: [
@@ -19,7 +17,7 @@ export default class App extends Component {
 			this.createTodoItem('editing task'),
 			this.createTodoItem('Active task'),
 		],
-	}
+	};
 
 	createTodoItem(label) {
 		return {
@@ -28,70 +26,70 @@ export default class App extends Component {
 			visible: true,
 			dateCreated: new Date(),
 			id: this.maxId++,
-		}
+		};
 	}
 
 	filterBy = (filter) => {
-		const { todoData } = this.state
+		const { todoData } = this.state;
 		switch (filter) {
 			case 'active':
 				this.setState({
 					todoData: todoData.map((task) => ({ ...task, visible: !task.done })),
-				})
-				break
+				});
+				break;
 			case 'completed':
 				this.setState({
 					todoData: todoData.map((task) => ({ ...task, visible: task.done })),
-				})
-				break
+				});
+				break;
 			case 'all':
 			default:
 				this.setState({
 					todoData: todoData.map((task) => ({ ...task, visible: true })),
-				})
+				});
 		}
-	}
+	};
 
 	onToggleDone = (id) => {
 		this.setState(({ todoData }) => {
-			const idx = todoData.findIndex((el) => el.id === id)
-			const oldItem = todoData[idx]
+			const idx = todoData.findIndex((el) => el.id === id);
+			const oldItem = todoData[idx];
 
-			const newItem = { ...oldItem, done: !oldItem.done }
-			const newArray = todoData.toSpliced(idx, 1, newItem)
-			return { todoData: newArray }
-		})
-	}
+			const newItem = { ...oldItem, done: !oldItem.done };
+			const newArray = todoData.toSpliced(idx, 1, newItem);
+			return { todoData: newArray };
+		});
+	};
 
 	clearCompleted = () => {
 		this.setState(({ todoData }) => {
-			const OnlyDoneArr = todoData.filter((el) => !el.done)
+			const OnlyDoneArr = todoData.filter((el) => !el.done);
 			return {
 				todoData: OnlyDoneArr,
-			}
-		})
-	}
+			};
+		});
+	};
 
 	addItem = (text) => {
-		const newItem = this.createTodoItem(text)
+		const newItem = this.createTodoItem(text);
 		this.setState(({ todoData }) => {
-			const newArr = [...todoData, newItem]
+			const newArr = [...todoData, newItem];
 			return {
 				todoData: newArr,
-			}
-		})
-	}
+			};
+		});
+	};
 	deleteItem = (id) => {
 		this.setState(({ todoData }) => {
-			const idx = todoData.findIndex((el) => el.id === id)
-			const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)]
-			return { todoData: newArray }
-		})
-	}
+			const idx = todoData.findIndex((el) => el.id === id);
+			const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
+			return { todoData: newArray };
+		});
+	};
 
 	render() {
-		const { todoData } = this.state
-		const unDoneCount = this.state.todoData.filter((el) => !el.done).length
+		const { todoData } = this.state;
+		const unDoneCount = this.state.todoData.filter((el) => !el.done).length;
 
 		return (
 			<section className="todoapp">
@@ -111,6 +109,6 @@ export default class App extends Component {
 					<TaskFilter />
 				</Footer>
 			</section>
-		)
+		);
 	}
 }
