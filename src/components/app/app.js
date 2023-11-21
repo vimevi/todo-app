@@ -108,7 +108,6 @@ export default class App extends Component {
 					onToggleDone={this.onToggleDone}
 				/>
 				<Footer
-					todos={todoData}
 					unDoneCount={unDoneCount}
 					clearCompleted={this.clearCompleted}
 					filterBy={this.filterBy}
