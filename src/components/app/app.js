@@ -12,11 +12,7 @@ export default class App extends Component {
 	maxId = 100;
 
 	state = {
-		todoData: [
-			this.createTodoItem('Completed task'),
-			this.createTodoItem('editing task'),
-			this.createTodoItem('Active task'),
-		],
+		todoData: [],
 	};
 
 	createTodoItem(label) {
@@ -28,8 +24,8 @@ export default class App extends Component {
 			id: this.maxId++,
 		};
 	}
-
 	filterBy = (filter) => {
+		this.timer();
 		const { todoData } = this.state;
 
 		let filteredData;

@@ -9,6 +9,8 @@ export default class Task extends Component {
 		editing: false,
 		editText: this.props.label,
 		labelValue: this.props.label,
+		elapsedSeconds: 0,
+		elapsedPaused: false,
 	};
 
 	static defaultProps = {
@@ -24,6 +26,7 @@ export default class Task extends Component {
 		label: PropTypes.string,
 		done: PropTypes.bool,
 		visible: PropTypes.bool,
+		timeElapsed: PropTypes.string,
 	};
 
 	timeFromCreate = () => {
@@ -78,6 +81,18 @@ export default class Task extends Component {
 			});
 		}
 	};
+	componentDidMount() {
+		this.timerInterval = setInterval(() => {
+			if (!this.state.elapsedPaused) {
+				this.setState((prevState) => ({
+					elapsedSeconds: prevState.elapsedSeconds + 1,
+				}));
+			}
+		}, 1000);
+	}
+	componentWillUnmount() {
+		clearInterval(this.timerInterval);
+	}
 
 	render() {
 		const { onDeleted, onToggleDone, done, dateCreated } = this.props;
@@ -86,6 +101,9 @@ export default class Task extends Component {
 		classNames += done ? 'completed' : '';
 
 		const createdTime = formatDistanceToNow(dateCreated, { addSuffix: true });
+		const elapsedMinutes = Math.floor(this.state.elapsedSeconds / 60);
+		const elapsedSeconds = this.state.elapsedSeconds % 60;
+
 		return (
 			<li className={classNames}>
 				<div className="view">
@@ -96,6 +114,7 @@ export default class Task extends Component {
 						onChange={this.onCheckboxChange}
 						checked={done}
 					/>
+
 					<label>
 						<span
 							className="description"
@@ -118,13 +137,40 @@ export default class Task extends Component {
 									}}
 								/>
 							) : (
-								<span>{this.state.labelValue} </span>
+								<>
+									<span className="label">{this.state.labelValue}</span>
+								</>
 							)}
 						</span>
 						<span className="created">created {createdTime}</span>
 					</label>
-					<button className="icon icon-edit" onClick={this.onLabelChange} />
-					<button className="icon icon-destroy" onClick={onDeleted} />
+
+					<div className="timer-container">
+						<span className="timer-buttons">
+							{' '}
+							<button
+								className="icon icon-pause"
+								onClick={() => {
+									this.setState({ elapsedPaused: true });
+								}}
+							/>
+							<button
+								className="icon icon-play"
+								onClick={() => {
+									this.setState({ elapsedPaused: false });
+								}}
+							/>
+						</span>
+						<span className="timer">
+							{elapsedMinutes}:
+							{elapsedSeconds < 10 ? `0${elapsedSeconds}` : elapsedSeconds}
+						</span>
+					</div>
+
+					<div className="actions">
+						<button className="icon icon-edit" onClick={this.onLabelChange} />
+						<button className="icon icon-destroy" onClick={onDeleted} />
+					</div>
 				</div>
 			</li>
 		);
