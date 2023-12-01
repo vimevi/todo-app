@@ -15,13 +15,14 @@ export default class App extends Component {
 		todoData: [],
 	};
 
-	createTodoItem(label) {
+	createTodoItem(label, minutes, seconds) {
 		return {
 			label,
 			done: false,
 			visible: true,
 			dateCreated: new Date(),
 			id: this.maxId++,
+			elapsedSeconds: minutes * 60 + seconds,
 		};
 	}
 	filterBy = (filter) => {
@@ -57,22 +58,24 @@ export default class App extends Component {
 			const oldItem = todoData[idx];
 
 			const newItem = { ...oldItem, done: !oldItem.done };
-			const newArray = todoData.toSpliced(idx, 1, newItem);
+			const newArray = [...todoData];
+			newArray.splice(idx, 1, newItem);
+
 			return { todoData: newArray };
 		});
 	};
 
 	clearCompleted = () => {
 		this.setState(({ todoData }) => {
-			const OnlyDoneArr = todoData.filter((el) => !el.done);
+			const onlyDoneArr = todoData.filter((el) => !el.done);
 			return {
-				todoData: OnlyDoneArr,
+				todoData: onlyDoneArr,
 			};
 		});
 	};
 
-	addItem = (text) => {
-		const newItem = this.createTodoItem(text);
+	addItem = (text, minutes, seconds) => {
+		const newItem = this.createTodoItem(text, minutes, seconds);
 		this.setState(({ todoData }) => {
 			const newArr = [...todoData, newItem];
 			return {

@@ -27,6 +27,7 @@ export default class Task extends Component {
 		done: PropTypes.bool,
 		visible: PropTypes.bool,
 		timeElapsed: PropTypes.string,
+		elapsedSeconds: PropTypes.number,
 	};
 
 	timeFromCreate = () => {
@@ -35,9 +36,12 @@ export default class Task extends Component {
 	};
 
 	onCheckboxChange = (e) => {
-		this.setState({
-			done: e.target.checked,
-		});
+		const done = e.target.checked;
+		this.setState({ done });
+
+		if (this.props.onToggleDone) {
+			this.props.onToggleDone(done);
+		}
 	};
 
 	onLabelChange = () => {
@@ -82,14 +86,20 @@ export default class Task extends Component {
 		}
 	};
 	componentDidMount() {
+		this.setState({
+			elapsedSeconds: this.props.elapsedSeconds || 0,
+		});
+
 		this.timerInterval = setInterval(() => {
 			if (!this.state.elapsedPaused) {
 				this.setState((prevState) => ({
-					elapsedSeconds: prevState.elapsedSeconds + 1,
+					elapsedSeconds:
+						prevState.elapsedSeconds > 0 ? prevState.elapsedSeconds - 1 : 0,
 				}));
 			}
 		}, 1000);
 	}
+
 	componentWillUnmount() {
 		clearInterval(this.timerInterval);
 	}
@@ -149,7 +159,9 @@ export default class Task extends Component {
 						<span className="timer-buttons">
 							{' '}
 							<button
-								className="icon icon-pause"
+								className={`icon icon-pause ${
+									this.state.elapsedPaused ? 'active-pause' : ''
+								}`}
 								onClick={() => {
 									this.setState({ elapsedPaused: true });
 								}}

@@ -24,10 +24,10 @@
 }
 
 .timer-container {
-	height: 10px;
+	height: 14px;
 	position: absolute;
 
-	left: 274px;
+	left: 270px;
 	position: relative;
 }
 .timer {
@@ -79,6 +79,15 @@
 	position: absolute;
 	top: 0px;
 	left: 170px;
+}
+.icon-pause-active:after {
+	content: '⏸';
+	position: absolute;
+	top: 0px;
+	left: 170px;
+}
+.active-pause:after {
+	background-color:rgb(215, 255, 255)
 }
 
 .icon-play:after {
