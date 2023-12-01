@@ -25,7 +25,6 @@ export default class App extends Component {
 		};
 	}
 	filterBy = (filter) => {
-		this.timer();
 		const { todoData } = this.state;
 
 		let filteredData;
