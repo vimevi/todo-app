@@ -3,12 +3,15 @@ import Task from '../task/task';
 
 import './todo-list.css';
 
-const TodoList = ({ todos, onDeleted, onToggleDone }) => {
+// eslint-disable-next-line react/prop-types
+const TodoList = ({ todos, onDeleted, onToggleDone, minutes, seconds }) => {
 	const elements = todos.map((item) => {
 		const { id, ...itemProps } = item;
 		if (item.visible) {
 			return (
 				<Task
+					minutes={minutes}
+					seconds={seconds}
 					key={item.id}
 					{...itemProps}
 					todos={todos}

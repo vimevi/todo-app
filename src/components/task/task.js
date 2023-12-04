@@ -1,8 +1,11 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 
 import './task.css';
+import MyTimer from '../timer/timer';
 
 export default class Task extends Component {
 	state = {
@@ -105,14 +108,15 @@ export default class Task extends Component {
 	}
 
 	render() {
-		const { onDeleted, onToggleDone, done, dateCreated } = this.props;
+		const { onDeleted, onToggleDone, done, dateCreated, minutes, seconds } =
+			this.props;
 
 		let classNames = '';
 		classNames += done ? 'completed' : '';
 
 		const createdTime = formatDistanceToNow(dateCreated, { addSuffix: true });
-		const elapsedMinutes = Math.floor(this.state.elapsedSeconds / 60);
-		const elapsedSeconds = this.state.elapsedSeconds % 60;
+		const time = new Date();
+		time.setSeconds(time.getSeconds() + minutes * 60 + seconds);
 
 		return (
 			<li className={classNames}>
@@ -155,29 +159,7 @@ export default class Task extends Component {
 						<span className="created">created {createdTime}</span>
 					</label>
 
-					<div className="timer-container">
-						<span className="timer-buttons">
-							{' '}
-							<button
-								className={`icon icon-pause ${
-									this.state.elapsedPaused ? 'active-pause' : ''
-								}`}
-								onClick={() => {
-									this.setState({ elapsedPaused: true });
-								}}
-							/>
-							<button
-								className="icon icon-play"
-								onClick={() => {
-									this.setState({ elapsedPaused: false });
-								}}
-							/>
-						</span>
-						<span className="timer">
-							{elapsedMinutes}:
-							{elapsedSeconds < 10 ? `0${elapsedSeconds}` : elapsedSeconds}
-						</span>
-					</div>
+					<MyTimer expiryTimestamp={time} />
 
 					<div className="actions">
 						<button className="icon icon-edit" onClick={this.onLabelChange} />

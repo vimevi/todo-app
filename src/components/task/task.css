@@ -30,6 +30,13 @@
 	left: 270px;
 	position: relative;
 }
+.timer-time {
+	font-size: 16px;
+	position: relative;
+	bottom: 15px;
+	left: 100px;
+	color: #707070;
+}
 .timer {
 	bottom: 4px;
 	left: 106px;

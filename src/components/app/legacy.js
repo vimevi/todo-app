@@ -13,8 +13,10 @@ export default class App extends Component {
 
 	state = {
 		todoData: [],
-		min: '',
-		sec: '',
+		timer: {
+			minutes: 0,
+			seconds: 0,
+		},
 	};
 
 	createTodoItem(label, minutes, seconds) {
@@ -66,6 +68,33 @@ export default class App extends Component {
 
 			return { todoData: newArray };
 		});
+		if (!this.state.todoData.find((task) => task.id === id).editing) {
+			this.updateTimer();
+		}
+	};
+
+	updateTimer = () => {
+		const { todoData } = this.state;
+
+		const totalSeconds = todoData.reduce(
+			(acc, task) => acc + task.minutes * 60 + task.seconds,
+			0,
+		);
+
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+
+		this.setState(
+			{
+				timer: {
+					minutes: minutes,
+					seconds: seconds,
+				},
+			},
+			() => {
+				console.log('this.state.timer', this.state.timer);
+			},
+		);
 	};
 
 	clearCompleted = () => {
@@ -75,19 +104,20 @@ export default class App extends Component {
 				todoData: onlyDoneArr,
 			};
 		});
+
+		this.updateTimer();
 	};
 
 	addItem = (text, minutes, seconds) => {
-		console.log(minutes, seconds);
 		const newItem = this.createTodoItem(text, minutes, seconds);
 		this.setState(({ todoData }) => {
 			const newArr = [...todoData, newItem];
 			return {
 				todoData: newArr,
-				min: minutes,
-				sec: '',
 			};
 		});
+		console.log(this.state.timer);
+		this.updateTimer();
 	};
 
 	deleteItem = (id) => {
@@ -96,14 +126,14 @@ export default class App extends Component {
 			const newArray = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
 			return { todoData: newArray };
 		});
+
+		this.updateTimer();
 	};
 
 	render() {
-		const { todoData } = this.state;
+		const { todoData, timer } = this.state;
 		const unDoneCount = this.state.todoData.filter((el) => !el.done).length;
-		{
-			console.log('this.state.min', this.state.min);
-		}
+
 		return (
 			<section className="todoapp">
 				<AppHeader />
@@ -112,8 +142,7 @@ export default class App extends Component {
 					todos={todoData}
 					onDeleted={this.deleteItem}
 					onToggleDone={this.onToggleDone}
-					minutes={this.state.min}
-					seconds={this.state.sec}
+					timer={timer}
 				/>
 				<Footer
 					unDoneCount={unDoneCount}
