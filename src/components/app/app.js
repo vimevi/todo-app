@@ -13,11 +13,11 @@ export default class App extends Component {
 
 	state = {
 		todoData: [],
-		min: '',
-		sec: '',
 	};
 
 	createTodoItem(label, minutes, seconds) {
+		const time = new Date();
+		time.setSeconds(time.getSeconds() + minutes * 60 + seconds);
 		return {
 			label,
 			done: false,
@@ -26,8 +26,10 @@ export default class App extends Component {
 			id: this.maxId++,
 			minutes: minutes,
 			seconds: seconds,
+			timeStamp: time,
 		};
 	}
+
 	filterBy = (filter) => {
 		const { todoData } = this.state;
 
@@ -55,6 +57,7 @@ export default class App extends Component {
 			todoData: filteredData,
 		});
 	};
+
 	onToggleDone = (id) => {
 		this.setState(({ todoData }) => {
 			const idx = todoData.findIndex((el) => el.id === id);
@@ -78,14 +81,11 @@ export default class App extends Component {
 	};
 
 	addItem = (text, minutes, seconds) => {
-		console.log(minutes, seconds);
 		const newItem = this.createTodoItem(text, minutes, seconds);
 		this.setState(({ todoData }) => {
 			const newArr = [...todoData, newItem];
 			return {
 				todoData: newArr,
-				min: minutes,
-				sec: '',
 			};
 		});
 	};
@@ -101,9 +101,7 @@ export default class App extends Component {
 	render() {
 		const { todoData } = this.state;
 		const unDoneCount = this.state.todoData.filter((el) => !el.done).length;
-		{
-			console.log('this.state.min', this.state.min);
-		}
+
 		return (
 			<section className="todoapp">
 				<AppHeader />
@@ -112,8 +110,7 @@ export default class App extends Component {
 					todos={todoData}
 					onDeleted={this.deleteItem}
 					onToggleDone={this.onToggleDone}
-					minutes={this.state.min}
-					seconds={this.state.sec}
+					setTimer={this.setTimer}
 				/>
 				<Footer
 					unDoneCount={unDoneCount}

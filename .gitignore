@@ -8,7 +8,7 @@ package.json
 
 # testing
 /coverage
-
+/legacy.js
 # production
 # /build
 

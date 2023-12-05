@@ -1,19 +1,15 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 
 import './task.css';
-import MyTimer from '../timer/timer';
+import MyTimer from '../timer';
 
 export default class Task extends Component {
 	state = {
 		editing: false,
 		editText: this.props.label,
 		labelValue: this.props.label,
-		elapsedSeconds: 0,
-		elapsedPaused: false,
 	};
 
 	static defaultProps = {
@@ -29,8 +25,7 @@ export default class Task extends Component {
 		label: PropTypes.string,
 		done: PropTypes.bool,
 		visible: PropTypes.bool,
-		timeElapsed: PropTypes.string,
-		elapsedSeconds: PropTypes.number,
+		timeStamp: PropTypes.object.isRequired,
 	};
 
 	timeFromCreate = () => {
@@ -39,12 +34,9 @@ export default class Task extends Component {
 	};
 
 	onCheckboxChange = (e) => {
-		const done = e.target.checked;
-		this.setState({ done });
-
-		if (this.props.onToggleDone) {
-			this.props.onToggleDone(done);
-		}
+		this.setState({
+			done: e.target.checked,
+		});
 	};
 
 	onLabelChange = () => {
@@ -88,35 +80,15 @@ export default class Task extends Component {
 			});
 		}
 	};
-	componentDidMount() {
-		this.setState({
-			elapsedSeconds: this.props.elapsedSeconds || 0,
-		});
-
-		this.timerInterval = setInterval(() => {
-			if (!this.state.elapsedPaused) {
-				this.setState((prevState) => ({
-					elapsedSeconds:
-						prevState.elapsedSeconds > 0 ? prevState.elapsedSeconds - 1 : 0,
-				}));
-			}
-		}, 1000);
-	}
-
-	componentWillUnmount() {
-		clearInterval(this.timerInterval);
-	}
 
 	render() {
-		const { onDeleted, onToggleDone, done, dateCreated, minutes, seconds } =
+		const { onDeleted, onToggleDone, done, dateCreated, timeStamp } =
 			this.props;
 
 		let classNames = '';
 		classNames += done ? 'completed' : '';
 
 		const createdTime = formatDistanceToNow(dateCreated, { addSuffix: true });
-		const time = new Date();
-		time.setSeconds(time.getSeconds() + minutes * 60 + seconds);
 
 		return (
 			<li className={classNames}>
@@ -159,7 +131,7 @@ export default class Task extends Component {
 						<span className="created">created {createdTime}</span>
 					</label>
 
-					<MyTimer expiryTimestamp={time} />
+					<MyTimer expiryTimestamp={timeStamp} />
 
 					<div className="actions">
 						<button className="icon icon-edit" onClick={this.onLabelChange} />

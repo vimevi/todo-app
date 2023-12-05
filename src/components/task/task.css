@@ -23,10 +23,14 @@
 	color: steelblue;
 }
 
+.timer-buttons {
+	position: absolute;
+	top: 30px;
+}
+
 .timer-container {
 	height: 14px;
 	position: absolute;
-
 	left: 270px;
 	position: relative;
 }
@@ -34,7 +38,7 @@
 	font-size: 16px;
 	position: relative;
 	bottom: 15px;
-	left: 100px;
+	right: -84px;
 	color: #707070;
 }
 .timer {
@@ -76,10 +80,6 @@
 .todo-list li .icon-play {
 	font-size: 15px;
 }
-.timer-buttons {
-	position: absolute;
-	top: 30px;;
-}
 
 .icon-pause:after {
 	content: '⏸';
@@ -94,7 +94,7 @@
 	left: 170px;
 }
 .active-pause:after {
-	background-color:rgb(215, 255, 255)
+	background-color: rgb(215, 255, 255);
 }
 
 .icon-play:after {

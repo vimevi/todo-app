@@ -49,6 +49,7 @@ export default class NewTaskForm extends React.Component {
 			sec: e.target.value,
 		});
 	};
+
 	render() {
 		return (
 			<form className="new-todo-form" onSubmit={this.onSubmit}>
@@ -61,6 +62,9 @@ export default class NewTaskForm extends React.Component {
 					required
 				></input>
 				<input
+					type="number"
+					max={1438}
+					min={1}
 					className="new-todo-form__timer"
 					onChange={this.onMinChange}
 					placeholder="Min"
@@ -69,6 +73,9 @@ export default class NewTaskForm extends React.Component {
 					inputMode="numeric"
 				></input>
 				<input
+					type="number"
+					max={99}
+					min={1}
 					className="new-todo-form__timer"
 					onChange={this.onSecChange}
 					placeholder="Sec"
