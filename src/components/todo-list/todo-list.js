@@ -3,7 +3,12 @@ import Task from '../task/task';
 
 import './todo-list.css';
 
-const TodoList = ({ todos, onDeleted, onToggleDone, timeStamp }) => {
+export default function TodoList({
+	todos,
+	onDeleted,
+	onToggleDone,
+	timeStamp,
+}) {
 	const elements = todos.map((item) => {
 		const { id, ...itemProps } = item;
 		if (item.visible) {
@@ -20,7 +25,7 @@ const TodoList = ({ todos, onDeleted, onToggleDone, timeStamp }) => {
 		}
 	});
 	return <ul className="todo-list">{elements}</ul>;
-};
+}
 
 TodoList.defaultProps = {
 	timeStamp: new Date(), // по-умолчанию таймер будет установлен в 00:00
@@ -32,5 +37,3 @@ TodoList.propTypes = {
 	onToggleDone: PropTypes.func.isRequired,
 	timeStamp: PropTypes.object,
 };
-
-export default TodoList;

@@ -1,144 +1,110 @@
-import { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 
 import './task.css';
 import MyTimer from '../timer';
 
-export default class Task extends Component {
-	state = {
-		editing: false,
-		editText: this.props.label,
-		labelValue: this.props.label,
+export default function Task({
+	onDeleted,
+	onToggleDone,
+	label,
+	done,
+	dateCreated,
+	timeStamp,
+}) {
+	const [editing, setEditing] = useState(false);
+	const [labelValue, setLabelValue] = useState(label);
+
+	const editInputRef = useRef(null);
+
+	const onCheckboxChange = () => {
+		onToggleDone();
 	};
 
-	static defaultProps = {
-		label: 'no text',
-		done: false,
-		visible: true,
+	const onLabelChange = () => {
+		setEditing((prevEditing) => !prevEditing);
 	};
 
-	static propTypes = {
-		onDeleted: PropTypes.func.isRequired,
-		onToggleDone: PropTypes.func.isRequired,
-		dateCreated: PropTypes.object.isRequired,
-		label: PropTypes.string,
-		done: PropTypes.bool,
-		visible: PropTypes.bool,
-		timeStamp: PropTypes.object.isRequired,
-	};
-
-	timeFromCreate = () => {
-		const createdTime = new Date();
-		return createdTime;
-	};
-
-	onCheckboxChange = (e) => {
-		this.setState({
-			done: e.target.checked,
-		});
-	};
-
-	onLabelChange = () => {
-		this.setState(
-			(prevState) => ({
-				editing: !prevState.editing,
-				editText: !prevState.editing ? this.props.label : prevState.labelValue,
-			}),
-			() => {
-				if (this.state.editing) {
-					this.editInput.focus();
-				}
-			},
-		);
-	};
-
-	handleEditInputChange = (e) => {
+	const handleEditInputChange = (e) => {
 		const newText = e.target.value;
-		this.setState((prevState) => ({
-			labelValue: newText.trim() !== false ? newText : prevState.labelValue,
-
-			editText: newText,
-		}));
+		setLabelValue(newText);
 	};
 
-	handleEditInputBlur = () => {
-		this.setState({
-			editing: false,
-		});
+	const handleEditInputBlur = () => {
+		setEditing(false);
 	};
 
-	handleEditInputKeyDown = (e) => {
-		if (e.key === 'Enter') {
-			this.setState({
-				editing: false,
-			});
-		}
-		if (e.key === 'Escape') {
-			this.setState({
-				editing: false,
-			});
+	const handleEditInputKeyDown = (e) => {
+		if (e.key === 'Enter' || e.key === 'Escape') {
+			setEditing(false);
 		}
 	};
 
-	render() {
-		const { onDeleted, onToggleDone, done, dateCreated, timeStamp } =
-			this.props;
+	const classNames = done ? 'completed' : '';
 
-		let classNames = '';
-		classNames += done ? 'completed' : '';
+	const createdTime = formatDistanceToNow(dateCreated, { addSuffix: true });
 
-		const createdTime = formatDistanceToNow(dateCreated, { addSuffix: true });
+	return (
+		<li className={classNames}>
+			<div className="view">
+				<input
+					className="toggle"
+					type="checkbox"
+					onChange={onCheckboxChange}
+					checked={done}
+				/>
 
-		return (
-			<li className={classNames}>
-				<div className="view">
-					<input
-						onClick={onToggleDone}
-						className="toggle"
-						type="checkbox"
-						onChange={this.onCheckboxChange}
-						checked={done}
-					/>
+				<label>
+					<span
+						className="description"
+						onClick={() => {
+							if (!editing) {
+								onToggleDone();
+							}
+						}}
+					>
+						{editing ? (
+							<input
+								type="text"
+								className="edit-input"
+								onChange={handleEditInputChange}
+								onBlur={handleEditInputBlur}
+								onKeyDown={handleEditInputKeyDown}
+								value={labelValue}
+								ref={editInputRef}
+							/>
+						) : (
+							<>
+								<span className="label">{labelValue}</span>
+							</>
+						)}
+					</span>
+					<span className="created">created {createdTime}</span>
+				</label>
 
-					<label>
-						<span
-							className="description"
-							onClick={() => {
-								if (!this.state.editing) {
-									onToggleDone();
-								}
-							}}
-						>
-							{this.state.editing ? (
-								<input
-									type="text"
-									className="edit-input"
-									onChange={this.handleEditInputChange}
-									onBlur={this.handleEditInputBlur}
-									onKeyDown={this.handleEditInputKeyDown}
-									value={this.state.labelValue}
-									ref={(input) => {
-										this.editInput = input;
-									}}
-								/>
-							) : (
-								<>
-									<span className="label">{this.state.labelValue}</span>
-								</>
-							)}
-						</span>
-						<span className="created">created {createdTime}</span>
-					</label>
+				<MyTimer expiryTimestamp={timeStamp} />
 
-					<MyTimer expiryTimestamp={timeStamp} />
-
-					<div className="actions">
-						<button className="icon icon-edit" onClick={this.onLabelChange} />
-						<button className="icon icon-destroy" onClick={onDeleted} />
-					</div>
+				<div className="actions">
+					<button className="icon icon-edit" onClick={onLabelChange} />
+					<button className="icon icon-destroy" onClick={onDeleted} />
 				</div>
-			</li>
-		);
-	}
+			</div>
+		</li>
+	);
 }
+Task.defaultProps = {
+	label: 'no text',
+	done: false,
+	visible: true,
+};
+
+Task.propTypes = {
+	onDeleted: PropTypes.func.isRequired,
+	onToggleDone: PropTypes.func.isRequired,
+	dateCreated: PropTypes.object.isRequired,
+	label: PropTypes.string,
+	done: PropTypes.bool,
+	visible: PropTypes.bool,
+	timeStamp: PropTypes.object.isRequired,
+};

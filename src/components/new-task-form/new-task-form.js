@@ -1,90 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './new-task-form.css';
 
-export default class NewTaskForm extends React.Component {
-	state = {
-		label: '',
-		min: '',
-		sec: '',
-	};
+export default function NewTaskForm({ onItemAdded }) {
+	const [label, setLabel] = useState('');
+	const [min, setMin] = useState('');
+	const [sec, setSec] = useState('');
 
-	static propTypes = {
-		onItemAdded: PropTypes.func.isRequired,
-	};
-
-	onSubmit = (e) => {
+	const onSubmit = (e) => {
 		e.preventDefault();
-		if (this.state.label.trim() === '') {
+		if (label.trim() === '') {
 			return;
 		}
-		this.props.onItemAdded(
-			this.state.label,
-			parseInt(this.state.min, 10) || 0,
-			parseInt(this.state.sec, 10) || 0,
-		);
+		onItemAdded(label, parseInt(min, 10) || 0, parseInt(sec, 10) || 0);
 
-		this.setState({
-			label: '',
-			min: '',
-			sec: '',
-		});
+		setLabel('');
+		setMin('');
+		setSec('');
 	};
 
-	onLabelChange = (e) => {
-		this.setState({
-			label: e.target.value,
-		});
+	const onLabelChange = (e) => {
+		setLabel(e.target.value);
 	};
 
-	onMinChange = (e) => {
-		this.setState({
-			min: e.target.value,
-		});
+	const onMinChange = (e) => {
+		setMin(e.target.value);
 	};
 
-	onSecChange = (e) => {
-		this.setState({
-			sec: e.target.value,
-		});
+	const onSecChange = (e) => {
+		setSec(e.target.value);
 	};
 
-	render() {
-		return (
-			<form className="new-todo-form" onSubmit={this.onSubmit}>
-				<input
-					value={this.state.label}
-					onChange={this.onLabelChange}
-					className="new-todo"
-					placeholder="Task"
-					autoFocus
-					required
-				></input>
-				<input
-					type="number"
-					max={1438}
-					min={1}
-					className="new-todo-form__timer"
-					onChange={this.onMinChange}
-					placeholder="Min"
-					value={this.state.min}
-					pattern="[0-9]*"
-					inputMode="numeric"
-				></input>
-				<input
-					type="number"
-					max={99}
-					min={1}
-					className="new-todo-form__timer"
-					onChange={this.onSecChange}
-					placeholder="Sec"
-					value={this.state.sec}
-					pattern="[0-9]*"
-					inputMode="numeric"
-				></input>
-				<button type="submit"></button>
-			</form>
-		);
-	}
+	return (
+		<form className="new-todo-form" onSubmit={onSubmit}>
+			<input
+				value={label}
+				onChange={onLabelChange}
+				className="new-todo"
+				placeholder="Task"
+				autoFocus
+				required
+			></input>
+			<input
+				type="number"
+				max={1438}
+				min={1}
+				className="new-todo-form__timer"
+				onChange={onMinChange}
+				placeholder="Min"
+				value={min}
+				pattern="[0-9]*"
+				inputMode="numeric"
+			></input>
+			<input
+				type="number"
+				max={119}
+				min={1}
+				className="new-todo-form__timer"
+				onChange={onSecChange}
+				placeholder="Sec"
+				value={sec}
+				pattern="[0-9]*"
+				inputMode="numeric"
+			></input>
+			<button type="submit"></button>
+		</form>
+	);
 }
+
+NewTaskForm.propTypes = {
+	onItemAdded: PropTypes.func.isRequired,
+};

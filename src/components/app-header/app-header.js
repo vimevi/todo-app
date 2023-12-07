@@ -1,11 +1,9 @@
 import './app-header.css';
 
-const AppHeader = () => {
+export default function AppHeader() {
 	return (
 		<header className="header">
 			<h1>todos</h1>
 		</header>
 	);
-};
-
-export default AppHeader;
+}
